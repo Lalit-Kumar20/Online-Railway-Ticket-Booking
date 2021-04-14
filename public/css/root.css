@@ -1,0 +1,36 @@
+body {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+    box-sizing: border-box;
+}
+.log {
+    display: flex;
+    width: 80px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.head {
+    font-size: 40px;
+}
+.mid {
+    font-size: 30px;
+}
+.name {
+    display: flex;
+}
+h1 {
+    float: left;
+    font-size: 20px;
+    color: gray;
+}
+h2 {
+    float: right;
+    padding-left: 20%;
+    position: absolute;
+    margin-top: 11px;;
+    color: grey;
+}
