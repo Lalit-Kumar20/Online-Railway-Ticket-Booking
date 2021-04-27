@@ -1,29 +1,18 @@
+<title>Payment</title> 
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-
-<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet"> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/loggedin.css">
-<!--
-<h1><%= us %></h1>
-<a href="/Book" class="p">Book a ticket</a>
-<a href="/Cancel" class="p">Cancel a ticket</a>
-<a href="/bookedtickets">Your tickets</a>
-<a href="/logout">Logout</a>
-<a href="/test">Test</a>
--->
-<style>
-  footer .main-footer{  padding: 20px 0;  background: #252525;}
+    <style>
+        input[type=text]{
+            opacity: 0;
+        }
+        footer{
+            width: 100%;
+        }
+        footer .main-footer{  padding: 20px 0;  background: #252525;}
 footer ul{  padding-left: 0;  list-style: none;}
-
 /* Copy Right Footer */
 .footer-copyright { background: #222; padding: 5px 0;}
 .footer-copyright .logo {    display: inherit;}
@@ -94,121 +83,79 @@ box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 -ms-transition: all 250ms ease-in-out 0s;
 -o-transition: all 250ms ease-in-out 0s;
 transition: all 250ms ease-in-out 0s;
-
 }
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+form{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column; 
+   transform: scale(1.5);   
+}
+.bg {
+  animation:slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+  bottom:0;
+  left:-50%;
+  opacity:.5;
+  position:fixed;
+  right:-50%;
+  top:0;
+  z-index:-1;
+}
+
+.bg2 {
+  animation-direction:alternate-reverse;
+  animation-duration:4s;
+}
+
+.bg3 {
+  animation-duration:5s;
+}
+
 </style>
-	
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <h1 class="navbar-brand" 
-    style="
-    color: white;
-    font-size: 25px;     
-    ">
-        Welcome ,
-        <%= us %> !</h1>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto topnav">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                >
-                  <i class="fas fa-cog fa-2x" style="color: white;"></i>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                    <a class="dropdown-item" href="/ticketverify">Verify Tickets</a>
-                    
-            </li>
-            
-        </ul>
-    </div>
-
-     
-        
-
-</nav>
-
-
 <br>
 <br>
 <br>
 
-  <div class="container">
-    <div class="row flex-items-xs-middle flex-items-xs-center">
-  
-      <!-- Table #1  -->
-      <div class="col-xs-12 col-lg-4">
-        <div class="card text-xs-center">
-          <div class="card-block text-center">
-            <h1 class="card-title"> 
-              Book A Ticket
-            </h1>
-            <br>
-            <br>
-            <ul>
-            
-      <img src="/css/book.png" id="icon" alt="User Icon" width="150" height="150"/>
-    </ul>      
+<br>
+<br>
+<img src="/css/ppay.png" alt="pay" width="200" height="200">
+    <br><br>
+    <br>
+    <br>
     <br>
     <br>
 
-      <a href="/Book" id = "bt" class="btn btn-gradient mt-2" style="transform: scale(1.7);">Book a ticket</a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Table #1  -->
-      <div class="col-xs-12 col-lg-4">
-        <div class="card text-xs-center">
-          <div class="card-block text-center">
-            <h1 class="card-title"> 
-              Cancel a Ticket
-            </h1>
+    <form action="payment" method="POST"> 
+    <input type="text" name = "rec" value="<%=user%>#<%=price%>">
+    <input type="text" name = "itm" value="<%=str%>">
     <br>
-    <br>
-
-            <ul>
-            
-                <img src="/css/cancel.png" id="icon" alt="User Icon" width="150" height="150"/>
-              </ul>      
-    <br>
-    <br>
-
-              <a href="/Cancel" id = "bt" class="btn btn-gradient mt-2" style="transform: scale(1.7);
-              ">Click Here</a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Table #1  -->
-      <div class="col-xs-12 col-lg-4">
-        <div class="card text-xs-center">
-          <div class="card-block text-center">
-            <h1 class="card-title"> 
-              Your Tickets
-            </h1>
-    <br>
-    <br>
-            <ul>
-            
-                <img src="/css/cart.png" id="icon" alt="User Icon" width="150" height="150"/>
-              </ul>      
-        <br>
-        <br>
-              <a href="/bookedtickets" id="bt" class="btn btn-gradient mt-2" style="transform: scale(1.7);">Your tickets</a>
-          </div>
-        </div>
-      </div>
-  
-    </div>
-  </div>
+    <script
+        src="//checkout.stripe.com/v2/checkout.js"
+        class="stripe-button"
+        data-key="<%= key %>" 
+        data-amount="<%= price*100 %>" 
+        data-currency="inr" 
+        data-name="<%= user %>" 
+        data-description="Web Application" 
+        data-locale="auto" > 
+        </script> 
+    </form>
+    <br><br>
+    <br> 
 
 
-
-  <footer id="footer" class="footer-1">
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    
+<footer id="footer" class="footer-1">
     <div class="main-footer widgets-dark typo-light">
     <div class="container">
     <div class="row">

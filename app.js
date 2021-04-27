@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+
 const ejs = require("ejs");
 const session = require("express-session");
 const passport  = require("passport");
@@ -21,7 +22,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var check = Number(0);
-
+const PUBLISHABLEKEY=process.env.PUBLISHABLEKEY;
+const SECRETKEY=process.env.SECRETKEY;
+const stripe = require('stripe')(SECRETKEY);
 mongoose.connect("mongodb://localhost:27017/railsDBS2",{useNewUrlParser : true,useUnifiedTopology : true});
 mongoose.set("useCreateIndex",true);
 const trains = ({
@@ -57,7 +60,8 @@ const items = ({
     from : String,
     to : String,
     date : String,
-    type : String
+    type : String,
+    verified : String
 });
 
 const it = mongoose.model("item",items);
@@ -391,23 +395,27 @@ or.findOne({name : daytrain},function(err,found){
              {
                 const fr = foundItems.source;
                 const des = foundItems.destination;
-                    
+                const cost = foundItems.price;
                  const capacity = foundItems.capacity;
                  console.log(seatsoccupied);
                  console.log(capacity);
                  console.log(seats);
+                 var st = "";
                  if(capacity>=seatsoccupied+seats){
                      or.updateOne({name : found.name},{val : seatsoccupied+seats},function(err){
                          if(err) console.log(err);
                      });
-                   
+                    var pr = Number(seats)*Number(cost);
                     
+                    const us = req.session.passport.user;
                      for(let  i = 0;i<seats;++i)
                      {
 
                      
                     var pnr = ''+(new Date().valueOf());
-                    
+                    st+=pnr;
+                    if(i<=seats-1) st+="+";
+
                     
                     const canc = new cr({
                       number : pnr,
@@ -428,7 +436,8 @@ or.findOne({name : daytrain},function(err,found){
                         from : fr,
                         to : des,
                         date : datee,
-                        type : typee
+                        type : typee,
+                        verified : "No"
                     });
                     order.save();
                     console.log(u);
@@ -439,15 +448,18 @@ or.findOne({name : daytrain},function(err,found){
                     console.log(des);
                     console.log(typee);
                 }
+                console.log(us);
                     
-                    res.redirect('/successful');
-                    app.get('/successful',function(req,res){
-                       
-                        res.render("success",{
-                            pnr : pnr
+                 console.log(pr);
+                        res.render("payment",{
+                            pnr : pnr,
+                            price : pr,
+                            key : PUBLISHABLEKEY,
+                            user : us,
+                            str : st
                         });
                         console.log("successfull");
-                    })
+                    
                  }
             else {
                 console.log("aa");
@@ -475,23 +487,26 @@ or.findOne({name : daytrain},function(err,found){
               {
                  const fr = foundItems.source;
                  const des = foundItems.destination;
-                     
+                 const cost = foundItems.price;    
                   const capacity = foundItems.capacity;
                   console.log(seatsoccupied);
                   console.log(capacity);
                   console.log(seats);
+                  var st = "";
                   if(capacity>=seatsoccupied+seats){
                       or.updateOne({name : daytrain},{val : seatsoccupied+seats},function(err){
                           if(err) console.log(err);
                       });
                     
-                     
+                     var pr = Number(seats)*Number(cost);
+                     const us = req.session.passport.user;
                       for(let  i = 0;i<seats;++i)
                       {
  
                       
                      var pnr = ''+(new Date().valueOf());
-                     
+                     st+=pnr;
+                     if(i<seats-1) st+="+";
                      
                      const canc = new cr({
                        number : pnr,
@@ -512,7 +527,8 @@ or.findOne({name : daytrain},function(err,found){
                          from : fr,
                          to : des,
                          date : datee,
-                         type : typee
+                         type : typee,
+                         verified : "No"
                      });
                      order.save();
                      console.log(u);
@@ -524,14 +540,17 @@ or.findOne({name : daytrain},function(err,found){
                      console.log(typee);
                  }
                      
-                     res.redirect('/successful');
-                     app.get('/successful',function(req,res){
+                 console.log(pr);
                         
-                         res.render("success",{
-                             pnr : pnr
+                         res.render("payment",{
+                             pnr : pnr,
+                             price : pr,
+                             key : PUBLISHABLEKEY,
+                             user : us,
+                             str : st
                          });
                          console.log("successfull");
-                     })
+                     
                   }
              else {
                  console.log("aa");
@@ -549,6 +568,53 @@ or.findOne({name : daytrain},function(err,found){
     else {
         res.redirect("/");
     }
+});
+app.post('/payment',function(req,res){
+var inp = req.body.rec.split('#');
+var name = inp[0];
+var price = inp[1];
+console.log(name);
+console.log(price);
+var item = req.body.itm.split('+');
+stripe.customers.create({ 
+    email: req.body.stripeEmail, 
+    source: req.body.stripeToken, 
+    name: name, 
+    address: { 
+        line1: 'xxx', 
+        postal_code: 'xx', 
+        city: 'xx', 
+        state: 'xx', 
+        country: 'xx', 
+    } 
+}) 
+.then((customer) => { 
+
+    return stripe.charges.create({ 
+        amount: Number(price*100),    // Charing Rs 25 
+        description: 'Web Development Product', 
+        currency: 'INR', 
+        customer: customer.id 
+    }); 
+}) 
+.then((charge) => { 
+    for(let i = 0;i<item.length;++i){
+        if(item[i]!==""){
+
+        
+        it.updateOne({id : item[i]},{verified : "Yes"},function(err){
+            if(err){
+                console.log(err);
+            }
+        })
+    }
+    }
+    res.render("success");
+     // If no error occurs 
+}) 
+.catch((err) => { 
+    res.send(err)    // If some error occurs 
+}); 
 });
 app.post('/addtrain',function(req,res){
    const name = req.body.name;
@@ -571,6 +637,48 @@ app.post('/addtrain',function(req,res){
    res.redirect("/root");
 
 });
+app.get("/ticketverify",function(req,res){
+    res.render("ticketverify");
+})
+app.post("/verify",function(req,res){
+    var str = req.body.id+"+";
+    var user = "";
+    if(req.session){
+        if(req.session.passport){
+            if(req.session.passport.user){
+
+                 user = req.session.passport.user;
+            }
+        }
+    }
+    it.findOne({id : req.body.id},function(err,found){
+           if(found){
+               var name = found.train;
+               var type = found.type;
+               console.log("aa");
+               console.log(name);
+               console.log(type);
+               tr.findOne({name : name,type : type},function(err,f){
+                   if(f){
+                       console.log("bb");
+    var pnr = "";
+    if(user==="") res.redirect("/");
+    else {
+        res.render("payment",{
+            pnr : pnr,
+            price : f.price,
+            key : PUBLISHABLEKEY,
+            user : user,
+            str : str
+        });
+    }
+                   }
+               })
+           }
+    })
+
+})
+
 app.listen(3000,function(){
     console.log("Server is UP");
 })
