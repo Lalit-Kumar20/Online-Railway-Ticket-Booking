@@ -3,8 +3,8 @@
 Instructions to Run:<br />
 Download the zip file or clone it.<br />
 Open terminal, navigate to the folder.<br />
-Run the command npm install , it will install all the dependencies.<br />
-Run the command nodemon app.js<br />
+Run the command `npm install` , it will install all the dependencies.<br />
+Run the command `nodemon app.js`<br />
 Open any web browser and search localhost:3000<br />
 
 At the home page you will see two modes user mode, and the admin mode.<br />
