@@ -24,3 +24,4 @@ Then after logging in you will see three options,<br />
 
 On clicking book a ticket you will be asked to enter the date , mobile no. ,source ,destination after that you will see all trains. After entering the no. of tickets you want to 
 book and selecting the train you will be asked for payment , you can make a payment only through card.
+Please see Project Report for full details.
