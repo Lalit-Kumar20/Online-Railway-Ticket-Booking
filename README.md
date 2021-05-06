@@ -1,5 +1,11 @@
 **Online Railway Ticket Booking System**
 
+ 
+    Name: Lalit Kumar (185020), 
+    Course: CSD-327 Software Engineering LAB
+    Date: May 6th, 2021
+    Submitted to: Dr. Dharmendra Prasad Mahto
+
 Instructions to Run:<br />
 Download the zip file or clone it.<br />
 Connect to your local mongodb database inside app.js
