@@ -2,6 +2,7 @@
 
 Instructions to Run:<br />
 Download the zip file or clone it.<br />
+Connect to your local mongodb database inside app.js
 Open terminal, navigate to the folder.<br />
 Run the command `npm install` , it will install all the dependencies.<br />
 Run the command `nodemon app.js`<br />
