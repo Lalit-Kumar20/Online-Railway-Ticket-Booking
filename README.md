@@ -7,10 +7,22 @@
     Submitted to: Dr. Dharmendra Prasad Mahto
 
 Instructions to Run:<br />
+Pre-requisites<br />
+Mongodb<br />
+Nodejs<br />
+StripeAccount <br />
+
 Download the zip file or clone it.<br />
-Connect to your local mongodb database inside app.js
+Connect to your local mongodb database inside app.js <br />
+Edit this line in app.js (mongoose.connect("mongodb://localhost:27017/railsDBS2",{useNewUrlParser : true,useUnifiedTopology : true});)<br />
 Open terminal, navigate to the folder.<br />
 Run the command `npm install` , it will install all the dependencies.<br />
+Create a .env file in the project folder and add variables ,(SECRET=YourSecret) for session,<br />
+ADMIN=YourAdminModeUserIdandPassword <br />
+Admin mode has same userid and password<br />
+PUBLISHABLEKEY=YourStripePublishableKey<br />
+SECRETKEY=YourStripeSecretKey<br />
+You can get your secret and publishable key for free by creating an account on stripe.com<br />
 Run the command `nodemon app.js`<br />
 Open any web browser and search localhost:3000<br />
 
